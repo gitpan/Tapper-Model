@@ -1,0 +1,13 @@
+^.git
+Tapper-Model-*.*.tar.gz
+^Tapper-Model-*.*$
+_build
+blib
+^Build$
+MANIFEST.bak
+MANIFEST.old
+^Makefile$
+t/tapper_schema_testsdb_testdb.sqlite
+t/tapper_schema_testrundb_test.sqlite
+t/tapper_schema_reportsdb_test.sqlite
+^MYMETA.yml$
