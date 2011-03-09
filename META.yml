@@ -6,7 +6,7 @@ author:
 build_requires:
   Data::DPath: 0.17
   ExtUtils::MakeMaker: 6.42
-  Tapper::Test: 3.000001
+  Tapper::Test: 3.000002
   Test::Fixture::DBIC::Schema: 0.02
   Test::More: 0
   Test::Perl::Critic: 0
@@ -26,8 +26,8 @@ no_index:
     - xt
 requires:
   Memoize: 0
-  Tapper::Config: 3.000001
-  Tapper::Schema: 3.000001
+  Tapper::Config: 3.000002
+  Tapper::Schema: 3.000002
   parent: 0
   perl: 5.010
-version: 3.000001
+version: 3.000002
