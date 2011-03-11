@@ -18,7 +18,7 @@ use Memoize;
 use Tapper::Config;
 use parent 'Exporter';
 
-our $VERSION   = '3.000002';
+our $VERSION   = '3.000004';
 our @EXPORT_OK = qw(model get_hardware_overview get_systems_id_for_hostname);
 
 

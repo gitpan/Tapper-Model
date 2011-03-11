@@ -22,4 +22,7 @@ requires 'Memoize'                     => 0;
 requires 'Tapper::Config'              => "3.000002";
 requires 'Tapper::Schema'              => "3.000002";
 
+repository 'git://github.com/amd/Tapper-Reports-Model.git';
+bugtracker 'http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Tapper-Model';
+
 WriteAll;

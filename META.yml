@@ -1,7 +1,6 @@
 ---
 abstract: 'Tapper - Context sensitive connected DBIC schema'
 author:
-  - '-2011 AMD OSRC Tapper Team, all rights reserved.'
   - 'AMD OSRC Tapper Team <tapper@amd64.org>'
 build_requires:
   Data::DPath: 0.17
@@ -13,7 +12,7 @@ build_requires:
 configure_requires:
   ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 1.00'
+generated_by: 'Module::Install version 0.91'
 license: freebsd
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -30,4 +29,7 @@ requires:
   Tapper::Schema: 3.000002
   parent: 0
   perl: 5.010
-version: 3.000002
+resources:
+  bugtracker: http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Tapper-Model
+  repository: git://github.com/amd/Tapper-Reports-Model.git
+version: 3.000004
