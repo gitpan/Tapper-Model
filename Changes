@@ -1,3 +1,10 @@
+Revision history for Tapper-Model
+
+4.0.1     2012-05-16
+        - cleanup and bugfixes
+        - get_or_create_user
+        - big Dist::Zilla roundhouse kick
+
 2011-04-07  Steffen Schwigon  <steffen.schwigon@amd.com>
 
 	* v3.0.10

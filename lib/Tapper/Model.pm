@@ -1,4 +1,11 @@
 package Tapper::Model;
+BEGIN {
+  $Tapper::Model::AUTHORITY = 'cpan:AMD';
+}
+{
+  $Tapper::Model::VERSION = '4.0.1';
+}
+# ABSTRACT: Tapper - Context sensitive connected DBIC schema
 
 use warnings;
 use strict;
@@ -18,23 +25,8 @@ use Memoize;
 use Tapper::Config;
 use parent 'Exporter';
 
-our $VERSION   = '3.000010';
-our @EXPORT_OK = qw(model get_hardware_overview get_systems_id_for_hostname);
+our @EXPORT_OK = qw(model get_hardware_overview);
 
-
-=begin model
-
-Returns a connected schema, depending on the environment (live,
-development, test).
-
-@param 1. $schema_basename - optional, default is "Tests", meaning the
-          Schema "Tapper::Schema::Tests"
-
-@return $schema
-
-=end model
-
-=cut
 
 memoize('model');
 sub model
@@ -62,30 +54,18 @@ sub model
 }
 
 
-=head2 get_or_create_user
-
-Search a user based on login name. Create a user with this login name if
-not found.
-
-@param string - login name
-
-@return success - id (primary key of user table)
-@return error   - undef
-
-=cut 
-
 sub get_or_create_user {
         my ($login) = @_;
         my $user_search = model('TestrunDB')->resultset('User')->search({ login => $login });
         my $user_id;
-        if (not $user_search) {
+        if (not $user_search->count) {
                 my $user = model('TestrunDB')->resultset('User')->new({ login => $login });
                 $user->insert;
-                return user->id;
+                return $user->id;
         } else {
-                my $user = $user_search->first;
-                return $user ? $user->id : 0;
-                
+                my $user = $user_search->first; # at least one user
+                return $user->id;
+
         }
         return;
 }
@@ -106,16 +86,6 @@ sub free_hosts_with_features
 }
 
 
-=head2 get_hardware_overview
-
-Returns an overview of a given machine revision.
-
-@param int - machine lid
-
-@return success - hash ref
-@return error   - undef
-
-=cut
 
 use Carp;
 
@@ -135,6 +105,14 @@ sub get_hardware_overview
 
 }
 
+
+1; # End of Tapper::Model
+
+__END__
+=pod
+
+=encoding utf-8
+
 =head1 NAME
 
 Tapper::Model - Tapper - Context sensitive connected DBIC schema
@@ -142,23 +120,53 @@ Tapper::Model - Tapper - Context sensitive connected DBIC schema
 =head1 SYNOPSIS
 
     use Tapper::Model 'model';
-    my $testrun = model->schema('Testrun')->find(12);  # defaults to "TestrunDB"
+    my $testrun = model('TestrunDB')->schema('Testrun')->find(12);
     my $testrun = model('ReportsDB')->schema('Report')->find(7343);
-
-
-=head1 EXPORT
 
 =head2 model
 
-Returns a connected schema.
+Returns a connected schema, depending on the environment (live,
+development, test).
 
-=head1 COPYRIGHT & LICENSE
+@param 1. $schema_basename - optional, default is "Tests", meaning the
+          Schema "Tapper::Schema::Tests"
 
-Copyright 2008-2011 AMD OSRC Tapper Team, all rights reserved.
+@return $schema
 
-This program is released under the following license: freebsd
+=head2 get_or_create_user
 
+Search a user based on login name. Create a user with this login name if
+not found.
+
+@param string - login name
+
+@return success - id (primary key of user table)
+@return error   - undef
+
+=head2 free_hosts_with_features
+
+Return list of free hosts with their features and queues.
+
+=head2 get_hardware_overview
+
+Returns an overview of a given machine revision.
+
+@param int - machine lid
+
+@return success - hash ref
+@return error   - undef
+
+=head1 AUTHOR
+
+AMD OSRC Tapper Team <tapper@amd64.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
+
+This is free software, licensed under:
+
+  The (two-clause) FreeBSD License
 
 =cut
 
-1; # End of Tapper::Model

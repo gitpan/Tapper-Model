@@ -1,28 +1,65 @@
+
 use strict;
 use warnings;
 
-use inc::Module::Install;
+use 5.010;
 
-name     'Tapper-Model';
-all_from 'lib/Tapper/Model.pm';
-author   'AMD OSRC Tapper Team <tapper@amd64.org>';
-license  'freebsd';
+use ExtUtils::MakeMaker 6.30;
 
-build_requires 'Test::More'                  => 0;
-build_requires 'Test::Perl::Critic'          => 0;
-build_requires 'Test::Fixture::DBIC::Schema' => "0.02";
-build_requires 'Tapper::Test' => "3.000010";
-build_requires 'Data::DPath'                 => "0.17";
 
-author_requires 'Module::Install::WriteAll';
 
-requires 'perl'                        => '5.010';
-requires 'parent'                      => 0;
-requires 'Memoize'                     => 0;
-requires 'Tapper::Config' => "3.000010";
-requires 'Tapper::Schema' => "3.000010";
+my %WriteMakefileArgs = (
+  "ABSTRACT" => "Tapper - Context sensitive connected DBIC schema",
+  "AUTHOR" => "AMD OSRC Tapper Team <tapper\@amd64.org>",
+  "BUILD_REQUIRES" => {
+    "Data::DPath" => 0,
+    "Data::Dumper" => 0,
+    "Tapper::Schema::TestTools" => 0,
+    "Test::Fixture::DBIC::Schema" => 0,
+    "Test::More" => 0
+  },
+  "CONFIGURE_REQUIRES" => {
+    "ExtUtils::MakeMaker" => "6.30"
+  },
+  "DISTNAME" => "Tapper-Model",
+  "EXE_FILES" => [],
+  "LICENSE" => "open_source",
+  "NAME" => "Tapper::Model",
+  "PREREQ_PM" => {
+    "Carp" => 0,
+    "Class::C3" => 0,
+    "Exporter" => 0,
+    "MRO::Compat" => 0,
+    "Memoize" => 0,
+    "Tapper::Config" => 0,
+    "parent" => 0,
+    "strict" => 0,
+    "warnings" => 0
+  },
+  "VERSION" => "4.0.1",
+  "test" => {
+    "TESTS" => "t/*.t"
+  }
+);
 
-repository 'git://github.com/amd/Tapper-Reports-Model.git';
-bugtracker 'http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Tapper-Model';
 
-WriteAll;
+unless ( eval { ExtUtils::MakeMaker->VERSION(6.56) } ) {
+  my $br = delete $WriteMakefileArgs{BUILD_REQUIRES};
+  my $pp = $WriteMakefileArgs{PREREQ_PM};
+  for my $mod ( keys %$br ) {
+    if ( exists $pp->{$mod} ) {
+      $pp->{$mod} = $br->{$mod} if $br->{$mod} > $pp->{$mod};
+    }
+    else {
+      $pp->{$mod} = $br->{$mod};
+    }
+  }
+}
+
+delete $WriteMakefileArgs{CONFIGURE_REQUIRES}
+  unless eval { ExtUtils::MakeMaker->VERSION(6.52) };
+
+WriteMakefile(%WriteMakefileArgs);
+
+
+

@@ -12,7 +12,7 @@ use Test::Fixture::DBIC::Schema;
 use Data::DPath qw(dpath);
 use Data::Dumper;
 
-plan tests => 2;
+plan tests => 3;
 
 # --------------------------------------------------
 construct_fixture( schema  => testrundb_schema, fixture => 't/fixtures/testrundb/testrun_with_preconditions.yml' );
@@ -30,3 +30,5 @@ is_deeply($content, {
                     },
           'Hardware overview of host dickstone');
 
+Tapper::Model::get_or_create_user('does_not_exist');
+is( model('TestrunDB')->resultset('User')->search({login => 'does_not_exist'})->count, 1, "Created new user" );
