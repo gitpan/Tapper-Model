@@ -30,5 +30,5 @@ is_deeply($content, {
                     },
           'Hardware overview of host dickstone');
 
-Tapper::Model::get_or_create_user('does_not_exist');
-is( model('TestrunDB')->resultset('User')->search({login => 'does_not_exist'})->count, 1, "Created new user" );
+Tapper::Model::get_or_create_owner('does_not_exist');
+is( model('TestrunDB')->resultset('Owner')->search({login => 'does_not_exist'})->count, 1, "Created new owner" );

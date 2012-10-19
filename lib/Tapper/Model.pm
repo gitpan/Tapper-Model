@@ -1,9 +1,11 @@
 package Tapper::Model;
+# git description: v4.0.1-6-g9ab8308
+
 BEGIN {
   $Tapper::Model::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Model::VERSION = '4.0.1';
+  $Tapper::Model::VERSION = '4.1.0';
 }
 # ABSTRACT: Tapper - Context sensitive connected DBIC schema
 
@@ -46,44 +48,25 @@ sub model
         my $model =  $schema_class->connect(Tapper::Config->subconfig->{database}{$schema_basename}{dsn},
                                             Tapper::Config->subconfig->{database}{$schema_basename}{username},
                                             Tapper::Config->subconfig->{database}{$schema_basename}{password});
-        eval {
-                # maybe no TestrunSchedulings in DB yet
-                $model->resultset('TestrunScheduling')->first->gen_schema_functions if $schema_basename eq 'TestrunDB';
-        };
         return $model;
 }
 
 
-sub get_or_create_user {
+sub get_or_create_owner {
         my ($login) = @_;
-        my $user_search = model('TestrunDB')->resultset('User')->search({ login => $login });
-        my $user_id;
-        if (not $user_search->count) {
-                my $user = model('TestrunDB')->resultset('User')->new({ login => $login });
-                $user->insert;
-                return $user->id;
+        my $owner_search = model('TestrunDB')->resultset('Owner')->search({ login => $login });
+        my $owner_id;
+        if (not $owner_search->count) {
+                my $owner = model('TestrunDB')->resultset('Owner')->new({ login => $login });
+                $owner->insert;
+                return $owner->id;
         } else {
-                my $user = $user_search->first; # at least one user
-                return $user->id;
-
+                my $owner = $owner_search->search({}, {rows => 1})->first; # at least one owner
+                return $owner->id;
         }
         return;
 }
 
-
-sub free_hosts_with_features
-{
-        my $hosts =  model('TestrunDB')->resultset("Host")->free_hosts;
-        my @hosts_with_features;
-        while (my $host = $hosts->next) {
-                my $features = get_hardware_overview($host->id);
-                $features->{hostname} = $host->name;
-                my $queues = [];
-#                $queues = [ map {$_->queue->id } $host->queuehosts->all ];
-                push @hosts_with_features, {host => $host, features => $features, queues => $queues};
-        }
-        return \@hosts_with_features;
-}
 
 
 
@@ -133,14 +116,14 @@ development, test).
 
 @return $schema
 
-=head2 get_or_create_user
+=head2 get_or_create_owner
 
-Search a user based on login name. Create a user with this login name if
+Search a owner based on login name. Create a owner with this login name if
 not found.
 
 @param string - login name
 
-@return success - id (primary key of user table)
+@return success - id (primary key of owner table)
 @return error   - undef
 
 =head2 free_hosts_with_features

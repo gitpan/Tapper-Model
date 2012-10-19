@@ -1,5 +1,14 @@
 Revision history for Tapper-Model
 
+4.1.0     2012-10-19
+        * PostgreSQL support
+        - [FIX] slow first() usage
+        - rename USER into OWNER
+
+        * Misc
+        - Moved free_host_with_features to scheduler
+        - do not generate schema functions
+
 4.0.1     2012-05-16
         - cleanup and bugfixes
         - get_or_create_user
