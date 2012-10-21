@@ -1,11 +1,11 @@
 package Tapper::Model;
-# git description: v4.0.1-6-g9ab8308
+# git description: v4.1.0-1-g2dcb5e2
 
 BEGIN {
   $Tapper::Model::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Model::VERSION = '4.1.0';
+  $Tapper::Model::VERSION = '4.1.1';
 }
 # ABSTRACT: Tapper - Context sensitive connected DBIC schema
 

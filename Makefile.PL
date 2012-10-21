@@ -32,11 +32,12 @@ my %WriteMakefileArgs = (
     "MRO::Compat" => 0,
     "Memoize" => 0,
     "Tapper::Config" => 0,
+    "Tapper::Schema" => "v4.1.0",
     "parent" => 0,
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "4.1.0",
+  "VERSION" => "4.1.1",
   "test" => {
     "TESTS" => "t/*.t"
   }

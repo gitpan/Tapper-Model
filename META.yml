@@ -24,6 +24,7 @@ requires:
   MRO::Compat: 0
   Memoize: 0
   Tapper::Config: 0
+  Tapper::Schema: v4.1.0
   parent: 0
   perl: 5.010
   strict: 0
@@ -32,7 +33,7 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Tapper-Model
   homepage: http://metacpan.org/release/Tapper-Model
   repository: git://github.com/amd/Tapper-Model.git
-version: 4.1.0
+version: 4.1.1
 x_Dist_Zilla:
   plugins:
     -
@@ -167,6 +168,14 @@ x_Dist_Zilla:
       class: Dist::Zilla::Plugin::Git::Push
       name: '@AMD/@Git/Push'
       version: 1.122530
+    -
+      class: Dist::Zilla::Plugin::Prereqs
+      config:
+        Dist::Zilla::Plugin::Prereqs:
+          phase: runtime
+          type: requires
+      name: Prereqs
+      version: 4.300023
     -
       class: Dist::Zilla::Plugin::FinderCode
       name: ':InstallModules'
